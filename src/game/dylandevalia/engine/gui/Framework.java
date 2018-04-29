@@ -55,8 +55,8 @@ public class Framework extends Canvas {
 	}
 	
 	/**
-	 * Simple getter to return the mouse position which is calculated in update.
-	 * Returns a copy so functions don't accidentally change the value
+	 * Simple getter to return the mouse position which is calculated in update. Returns a copy so
+	 * functions don't accidentally change the value
 	 *
 	 * @return The mouse position
 	 */
@@ -126,8 +126,8 @@ public class Framework extends Canvas {
 	}
 	
 	/**
-	 * Update state and mouse position
-	 * Try catch used as location on screen might not have been instantiated yet
+	 * Update state and mouse position Try catch used as location on screen might not have been
+	 * instantiated yet
 	 */
 	private void update() {
 		try {
@@ -143,8 +143,7 @@ public class Framework extends Canvas {
 	}
 	
 	/**
-	 * Draw state
-	 * Passes in interpolate value as well to allow smooth motion
+	 * Draw state Passes in interpolate value as well to allow smooth motion
 	 *
 	 * @param g The graphics2d object to draw onto
 	 */

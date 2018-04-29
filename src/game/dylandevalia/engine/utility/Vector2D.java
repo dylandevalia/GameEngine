@@ -1,6 +1,7 @@
 package game.dylandevalia.engine.utility;
 
 public class Vector2D {
+	
 	public double x, y;
 	
 	public Vector2D(double x, double y) {

@@ -1,53 +1,80 @@
 package game.dylandevalia.engine.states;
 
+import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.Log;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
- * Controls the creation, initialising, activating/swapping and destroying of states.
- * Passes functions onto the currently active state.
- * State objects are implemented from the 'State' interface
- * {@link State}
+ * Controls the creation, initialising, activating/swapping and destroying of states. Passes
+ * functions onto the currently active state. IState objects are implemented from the 'IState'
+ * interface {@link IState}
  */
 public class StateManager {
 	
-	// Static to give all states a new id in array
+	/** Static to give all states a new id in array */
 	private static int stateIndexCounter = 0;
-	// Array of loaded states
-	private final State[] loadedStates = new State[GameState.values().length];
-	// The currently active state
-	private State currentState;
+	
+	/** Array of loaded states */
+	private final IState[] loadedStates = new IState[GameState.values().length];
+	
+	/** The currently active state */
+	private IState currentState;
 	
 	/**
 	 * Creates the state in the array and calls the state's initialise function
 	 *
-	 * @param state The states to be initialise
+	 * @param state  The states to be initialise
+	 * @param bundle The bundle of the data to send to the initialising state
 	 */
-	public void loadState(GameState state) {
+	public void loadState(GameState state, Bundle bundle) {
 		try {
 			int index = state.getIndex();
-			loadedStates[index] = (State) state.getObj().newInstance();
-			loadedStates[index].initialise(this);
+			loadedStates[index] = (IState) state.getObj().newInstance();
+			loadedStates[index].initialise(this, bundle);
 			Log.info("STATE MANAGER", "Loaded and initialised " + state.name());
 		} catch (Exception e) {
-			Log.error("State manager", "Error trying to create new instance of " + state.name(), e);
+			Log.error(
+				"IState manager",
+				"Error trying to create new instance of " + state.name(),
+				e
+			);
 		}
+	}
+	
+	/**
+	 * Creates the stat in the array and calls the state's initialise function
+	 *
+	 * @param state The state to initialise
+	 */
+	public void loadState(GameState state) {
+		loadState(state, null);
 	}
 	
 	/**
 	 * Sets the given state as the active state
 	 *
-	 * @param state The state to become active
+	 * @param state  The state to set as active
+	 * @param bundle The bundle of the data to send to the state
 	 */
-	public void setState(GameState state) {
+	public void setState(GameState state, Bundle bundle) {
 		if (loadedStates[state.getIndex()] == null) {
-			Log.error("State manager", state.name() + " not loaded!");
+			Log.error("IState manager", state.name() + " not loaded!");
 			return;
 		}
 		currentState = loadedStates[state.getIndex()];
+		currentState.onSet(bundle);
 		Log.info("STATE MANAGER", state.name() + " set");
+	}
+	
+	/**
+	 * Sets the given state as the active state
+	 *
+	 * @param state The state to set as active
+	 */
+	public void setState(GameState state) {
+		setState(state, null);
 	}
 	
 	/**
@@ -73,8 +100,12 @@ public class StateManager {
 	/*              Passers             */
 	/* Calls the currently active state */
 	
+	public void reinitialise(Bundle bundle) {
+		currentState.initialise(this, bundle);
+	}
+	
 	public void reinitialise() {
-		currentState.initialise(this);
+		reinitialise(null);
 	}
 	
 	public void update() {
@@ -102,14 +133,14 @@ public class StateManager {
 	}
 	
 	/**
-	 * Enum used to store states. Takes the state class in constructor and
-	 * generates its own id from the static {@link #stateIndexCounter} to be used
-	 * in the array of states {@link #loadedStates}
-	 *
+	 * Enum used to store states. Takes the state class in constructor and generates its own id from
+	 * the static {@link #stateIndexCounter} to be used in the array of states {@link
+	 * #loadedStates}
+	 * <p>
 	 * Add states here
 	 *
 	 * @see #stateIndexCounter
-	 * @see State
+	 * @see IState
 	 */
 	public enum GameState {
 		START(Start.class), PLAY(Play.class), PAUSE(Pause.class);

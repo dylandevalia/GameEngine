@@ -43,9 +43,8 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	/* ----------------- */
 	
 	/**
-	 * Checks if a given key is being held down
-	 * Returns false on NullPointerException as key hasn't been pressed yet
-	 * so there's no value for it in the map
+	 * Checks if a given key is being held down Returns false on NullPointerException as key hasn't
+	 * been pressed yet so there's no value for it in the map
 	 *
 	 * @param key The keycode of the key to check
 	 * @return Whether the given key is held down
@@ -90,7 +89,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	/**
 	 * Updates the array {@link #mouseStates} when the mouse has been pressed/released
 	 *
-	 * @param e The mouse event
+	 * @param e      The mouse event
 	 * @param status True if the mouse was pressed, false if released
 	 */
 	private void mouseKeyStatus(MouseEvent e, boolean status) {
@@ -108,10 +107,8 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	}
 	
 	/**
-	 * Returns if the mouse button given is being pressed down
-	 * 1 - Left click
-	 * 2 - Middle click (scroll wheel)
-	 * 3 - Right click
+	 * Returns if the mouse button given is being pressed down 1 - Left click 2 - Middle click
+	 * (scroll wheel) 3 - Right click
 	 *
 	 * @param button Value of the button to check
 	 * @return Boolean if the mouse button is held down
