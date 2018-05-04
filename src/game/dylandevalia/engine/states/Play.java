@@ -4,6 +4,7 @@ import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.StateManager.GameState;
 import game.dylandevalia.engine.utility.Bundle;
+import game.dylandevalia.engine.utility.Utility;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
@@ -11,7 +12,8 @@ public class Play extends AbstractState {
 	
 	@Override
 	public void initialise(Bundle bundle) {
-	
+		// Wait 5 seconds to test asynchronous loading
+		Utility.sleep(5000);
 	}
 	
 	@Override

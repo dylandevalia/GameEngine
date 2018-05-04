@@ -1,6 +1,7 @@
 package game.dylandevalia.engine.states;
 
 import game.dylandevalia.engine.utility.Bundle;
+import game.dylandevalia.engine.utility.ICallback;
 import game.dylandevalia.engine.utility.Log;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -21,6 +22,38 @@ public class StateManager {
 	
 	/** The currently active state */
 	private IState currentState;
+	
+	/**
+	 * Creates the given state asynchronously, calls its initialisation method and runs the callback
+	 * method when completed
+	 *
+	 * @param state    The state to load into memory
+	 * @param bundle   The bundle of data to sent to the state's initialisation method
+	 * @param callback The callback method that will be called when the loading is complete
+	 */
+	public void loadStateAsync(final GameState state, final Bundle bundle, ICallback callback) {
+		Thread thread = new Thread(() -> loadState(state, bundle));
+		new Thread(() -> {
+			thread.start();
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			callback.callback();
+		}).start();
+	}
+	
+	/**
+	 * Creates the given state asynchronously, calls its initialisation method and runs the callback
+	 * method when completed
+	 *
+	 * @param state    The state to load into memory
+	 * @param callback The callback method that will be called when the loading is complete
+	 */
+	public void loadStateAsync(GameState state, ICallback callback) {
+		loadStateAsync(state, null, callback);
+	}
 	
 	/**
 	 * Creates the state in the array and calls the state's initialise function
