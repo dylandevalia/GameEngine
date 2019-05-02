@@ -12,8 +12,8 @@ public class Window extends JFrame {
 	// Should the window run is fullscreen or windowed
 	private final boolean fullscreen = false;
 	
-	public Window() {
-		this.setTitle("The Royal Game of Ur");
+	public Window(String windowTitle) {
+		setTitle(windowTitle);
 		
 		// Sets size of window
 		if (fullscreen) {
@@ -32,5 +32,9 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setContentPane(new Framework());
 		setVisible(true);
+	}
+	
+	public void setWindowTitle(String title) {
+		setTitle(title);
 	}
 }

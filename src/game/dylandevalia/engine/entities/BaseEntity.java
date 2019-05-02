@@ -1,4 +1,4 @@
-package game.dylandevalia.engine.game.entities;
+package game.dylandevalia.engine.entities;
 
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.utility.Vector2D;

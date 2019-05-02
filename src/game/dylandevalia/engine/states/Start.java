@@ -1,6 +1,6 @@
 package game.dylandevalia.engine.states;
 
-import game.dylandevalia.engine.game.entities.BaseEntity;
+import game.dylandevalia.engine.entities.BaseEntity;
 import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.StateManager.GameState;
@@ -11,7 +11,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-public class Start extends AbstractState {
+public class Start extends State {
 	
 	private int ready = 0;
 	private Ball ball = new Ball();

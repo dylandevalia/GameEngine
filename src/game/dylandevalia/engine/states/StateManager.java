@@ -9,8 +9,8 @@ import java.awt.event.MouseEvent;
 
 /**
  * Controls the creation, initialising, activating/swapping and destroying of states. Passes
- * functions onto the currently active state. IState objects are implemented from the 'IState'
- * interface {@link IState}
+ * functions onto the currently active state. AbstractState objects are implemented from the 'AbstractState'
+ * interface {@link AbstractState}
  */
 public class StateManager {
 	
@@ -18,10 +18,10 @@ public class StateManager {
 	private static int stateIndexCounter = 0;
 	
 	/** Array of loaded states */
-	private final IState[] loadedStates = new IState[GameState.values().length];
+	private final AbstractState[] loadedStates = new AbstractState[GameState.values().length];
 	
 	/** The currently active state */
-	private IState currentState;
+	private AbstractState currentState;
 	
 	/**
 	 * Creates the given state asynchronously, calls its initialisation method and runs the callback
@@ -64,12 +64,12 @@ public class StateManager {
 	public void loadState(GameState state, Bundle bundle) {
 		try {
 			int index = state.getIndex();
-			loadedStates[index] = (IState) state.getObj().newInstance();
+			loadedStates[index] = (AbstractState) state.getObj().newInstance();
 			loadedStates[index].initialise(this, bundle);
 			Log.info("STATE MANAGER", "Loaded and initialised " + state.name());
 		} catch (Exception e) {
 			Log.error(
-				"IState manager",
+				"AbstractState manager",
 				"Error trying to create new instance of " + state.name(),
 				e
 			);
@@ -93,7 +93,7 @@ public class StateManager {
 	 */
 	public void setState(GameState state, Bundle bundle) {
 		if (loadedStates[state.getIndex()] == null) {
-			Log.error("IState manager", state.name() + " not loaded!");
+			Log.error("AbstractState manager", state.name() + " not loaded!");
 			return;
 		}
 		currentState = loadedStates[state.getIndex()];
@@ -173,7 +173,7 @@ public class StateManager {
 	 * Add states here
 	 *
 	 * @see #stateIndexCounter
-	 * @see IState
+	 * @see AbstractState
 	 */
 	public enum GameState {
 		START(Start.class), PLAY(Play.class), PAUSE(Pause.class);

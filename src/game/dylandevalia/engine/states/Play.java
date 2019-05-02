@@ -1,14 +1,16 @@
 package game.dylandevalia.engine.states;
 
+import game.dylandevalia.engine.Engine;
 import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.StateManager.GameState;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.Utility;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class Play extends AbstractState {
+public class Play extends State {
 	
 	@Override
 	public void initialise(Bundle bundle) {
@@ -17,8 +19,8 @@ public class Play extends AbstractState {
 	}
 	
 	@Override
-	public void update() {
-	
+	public void onSet(Bundle bundle) {
+		Engine.changeWindowTitle("Play");
 	}
 	
 	@Override
