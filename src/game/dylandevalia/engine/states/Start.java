@@ -7,8 +7,8 @@ import game.dylandevalia.engine.states.StateManager.GameState;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.Log;
 import game.dylandevalia.engine.utility.Vector2D;
-import java.awt.Font;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Start extends State {
@@ -30,6 +30,14 @@ public class Start extends State {
 	public void draw(Graphics2D g, double interpolate) {
 		g.setColor(ColorMaterial.blue);
 		g.fillRect(0, 0, Window.WIDTH, Window.HEIGHT);
+		
+		g.setColor(Color.RED);
+		g.fillRect(0, 0, 1, 20);
+		g.fillRect(0, 0, 20, 1);
+		g.fillRect(Window.WIDTH - 1, Window.HEIGHT - 20, 1, 20);
+		g.fillRect(Window.WIDTH - 20, Window.HEIGHT - 1, 20, 1);
+		
+		
 		ball.draw(g, interpolate);
 		
 		if (ready == 0) {
