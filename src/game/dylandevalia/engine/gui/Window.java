@@ -1,7 +1,10 @@
 package game.dylandevalia.engine.gui;
 
+import game.dylandevalia.engine.states.State;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
 
 public class Window extends JFrame {
 	
@@ -10,12 +13,15 @@ public class Window extends JFrame {
 	
 	private boolean fullscreen = false;
 	
+	private Map<String, Class<? extends State>> registeredStates;
+	
 	/**
 	 * Constructs the window at fullscreen with given title
 	 *
 	 * @param title The title of the window
 	 */
-	public Window(String title) {
+	public Window(String title, Map<String, Class<? extends State>> registeredStates) {
+		this.registeredStates = registeredStates;
 		fullscreen = true;
 		setUndecorated(true);
 		setExtendedState(MAXIMIZED_BOTH);
@@ -30,7 +36,8 @@ public class Window extends JFrame {
 	 * @param resizeable Allows the window to be resizeable
 	 * @param title      The title of the window
 	 */
-	public Window(Dimension dimensions, boolean resizeable, String title) {
+	public Window(Dimension dimensions, boolean resizeable, String title, Map<String, Class<? extends State>> registeredStates) {
+		this.registeredStates = registeredStates;
 		setSize(dimensions);
 		setLocationRelativeTo(null);
 		setResizable(resizeable);
@@ -44,8 +51,8 @@ public class Window extends JFrame {
 	 * @param dimensions The size of the window
 	 * @param title      The title of the window
 	 */
-	public Window(Dimension dimensions, String title) {
-		this(dimensions, false, title);
+	public Window(Dimension dimensions, String title, Map<String, Class<? extends State>> registeredStates) {
+		this(dimensions, false, title, registeredStates);
 	}
 	
 	/**
@@ -56,7 +63,7 @@ public class Window extends JFrame {
 	private void constructor(String title) {
 		setTitle(title);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setContentPane(new Framework());
+		setContentPane(new Framework(registeredStates));
 		setVisible(true);
 	}
 	

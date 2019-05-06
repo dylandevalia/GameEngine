@@ -1,15 +1,15 @@
 package game.dylandevalia.engine.gui;
 
+import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.states.StateManager;
 import game.dylandevalia.engine.states.StateManager.GameState;
 import game.dylandevalia.engine.utility.Log;
 import game.dylandevalia.engine.utility.Vector2D;
-import java.awt.Graphics2D;
-import java.awt.IllegalComponentStateException;
-import java.awt.MouseInfo;
-import java.awt.Point;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 
 public class Framework extends Canvas {
 	
@@ -30,7 +30,7 @@ public class Framework extends Canvas {
 	private static final int MAX_UPDATES_BEFORE_RENDER = 5;
 	private static Vector2D mousePos = new Vector2D();
 	//	private Game game = new Game(this);
-	StateManager stateManager = new StateManager();
+	private StateManager stateManager;
 	
 	/* Game updates */
 	// Should the game loop run
@@ -38,20 +38,17 @@ public class Framework extends Canvas {
 	//  Used to calculate positions for rendering (ie. deltaTime)
 	private double interpolate;
 	
-	public Framework() {
+	Framework(Map<String, Class<? extends State>> states) {
 		super();
+		
+		stateManager = new StateManager(states);
 		
 		// Creates the start state and sets it to the active state
 		stateManager.loadState(GameState.START);
 		stateManager.setState(GameState.START);
 		
 		// Stats the game loop in its own thread
-		new Thread() {
-			@Override
-			public void run() {
-				gameLoop();
-			}
-		}.start();
+		new Thread(this::gameLoop).start();
 	}
 	
 	/**

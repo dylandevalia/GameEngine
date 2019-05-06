@@ -3,9 +3,12 @@ package game.dylandevalia.engine.states;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.ICallback;
 import game.dylandevalia.engine.utility.Log;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Controls the creation, initialising, activating/swapping and destroying of states. Passes
@@ -17,11 +20,18 @@ public class StateManager {
 	/** Static to give all states a new id in array */
 	private static int stateIndexCounter = 0;
 	
+	private Map<String, Class<? extends State>> registeredStates = new HashMap<>();
+	
 	/** Array of loaded states */
 	private final AbstractState[] loadedStates = new AbstractState[GameState.values().length];
 	
 	/** The currently active state */
 	private AbstractState currentState;
+	
+	
+	public StateManager(Map<String, Class<? extends State>> states) {
+		registeredStates.putAll(states);
+	}
 	
 	/**
 	 * Creates the given state asynchronously, calls its initialisation method and runs the callback
