@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 
 /**
- * The core of the engine which runs the game loop as well as holding and passing data to the state manager
+ * The core of the game.dylandevalia.engine which runs the game loop as well as holding and passing data to the state manager
  */
 public class Framework extends Canvas {
 	

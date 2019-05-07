@@ -16,26 +16,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The main class used to interact with the game engine
+ * The main class used to interact with the game game.dylandevalia.engine
  */
 public class Engine {
 	
 	/** Reference to the JFrame window */
 	private static Window window;
 	
-	/** Map of all the states the engine will know about */
+	/** Map of all the states the game.dylandevalia.engine will know about */
 	private static Map<String, Class<? extends IState>> registeredStates = new HashMap<>();
 	
-	/** True if an instance of the engine is already running */
+	/** True if an instance of the game.dylandevalia.engine is already running */
 	private static boolean isRunning = false;
 	
 	
 	//<editor-fold desc="Methods to run the application">
 	
 	/**
-	 * Starts the engine in fullscreen
+	 * Starts the game.dylandevalia.engine in fullscreen
 	 *
-	 * @param startingState The state that the engine will start on (must already be registered)
+	 * @param startingState The state that the game.dylandevalia.engine will start on (must already be registered)
 	 * @param title         The title of the window
 	 */
 	public static void runFullscreen(String startingState, String title) {
@@ -51,10 +51,10 @@ public class Engine {
 	}
 	
 	/**
-	 * Starts the engine in a window that is not resizeable
+	 * Starts the game.dylandevalia.engine in a window that is not resizeable
 	 *
 	 * @param dimensions    The size of the window in pixels
-	 * @param startingState The state that the engine will start on (must already be registered)
+	 * @param startingState The state that the game.dylandevalia.engine will start on (must already be registered)
 	 * @param title         The title of the window
 	 */
 	public static void runWindowed(Dimension dimensions, String startingState, String title) {
@@ -71,10 +71,10 @@ public class Engine {
 	}
 	
 	/**
-	 * Starts the engine in a window that is resizeable
+	 * Starts the game.dylandevalia.engine in a window that is resizeable
 	 *
 	 * @param dimensions    The size of the window in pixels
-	 * @param startingState The state that the engine will start on (must already be registered)
+	 * @param startingState The state that the game.dylandevalia.engine will start on (must already be registered)
 	 * @param title         The title of the window
 	 */
 	public static void runWindowedResizeable(Dimension dimensions, String startingState, String title) {
@@ -91,15 +91,15 @@ public class Engine {
 	}
 	
 	/**
-	 * Runs some validation before running the engine. Checks if:
+	 * Runs some validation before running the game.dylandevalia.engine. Checks if:
 	 * <ul>
 	 * <li>There are no registered states</li>
 	 * <li>The starting state is registered</li>
-	 * <li>There is already an instance of the engine running</li>
+	 * <li>There is already an instance of the game.dylandevalia.engine running</li>
 	 * </ul>
 	 * If any of the above are true, throws the relevant exception
 	 *
-	 * @param startingState The state that the engine will start on
+	 * @param startingState The state that the game.dylandevalia.engine will start on
 	 */
 	private static void checksBeforeRun(String startingState) {
 		if (registeredStates.isEmpty()) {
@@ -134,6 +134,33 @@ public class Engine {
 	 */
 	public static void changeWindowTitle(String newWindowTitle) {
 		window.setTitle(newWindowTitle);
+	}
+	
+	/**
+	 * Gets the current width and height of the window
+	 *
+	 * @return The current width and height of the window in pixels
+	 */
+	public static Dimension getWindowDimentions() {
+		return new Dimension(window.getWidth(), window.getHeight());
+	}
+	
+	/**
+	 * Gets the current width of the window
+	 *
+	 * @return The current width of the window in pixels
+	 */
+	public static int getWindowWidth() {
+		return window.getWidth();
+	}
+	
+	/**
+	 * Gets the current height of the window
+	 *
+	 * @return The current height of the window in pixels
+	 */
+	public static int getWindowHeight() {
+		return window.getHeight();
 	}
 	
 	

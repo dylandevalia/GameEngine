@@ -88,6 +88,7 @@ public class Window extends JFrame {
 	public void setWindowSize(Dimension dimension) {
 		setWindowSize(dimension.width, dimension.height);
 	}
+	
 	//</editor-fold>
 	
 	

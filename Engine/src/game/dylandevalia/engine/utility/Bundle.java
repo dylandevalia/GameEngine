@@ -1,10 +1,12 @@
 package game.dylandevalia.engine.utility;
 
+import game.dylandevalia.engine.states.IState;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Small class to allow data to be sent between {@link game.dylandevalia.engine.states.IState}s
+ * Small class to allow data to be sent between {@link IState}s
  */
 public class Bundle {
 	

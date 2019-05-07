@@ -1,6 +1,6 @@
 package game.dylandevalia.engine.utility;
 
-import game.dylandevalia.engine.gui.Window;
+import game.dylandevalia.engine.Engine;
 
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class Utility {
 	 * @return The mapped value based on the window's width
 	 */
 	public static double mapWidth(double sevenTwenty, double tenEighty) {
-		return map(Window.WIDTH, 1280, 1920, sevenTwenty, tenEighty);
+		return map(Engine.getWindowWidth(), 1280, 1920, sevenTwenty, tenEighty);
 	}
 	
 	/**

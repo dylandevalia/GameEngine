@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 /**
- * The canvas which the engine draws to. Extends {@link JPanel} to utilise the Swing GUI. Also implements {@link
+ * The canvas which the game.dylandevalia.engine draws to. Extends {@link JPanel} to utilise the Swing GUI. Also implements {@link
  * KeyListener} and {@link MouseListener} interfaces to get keyboard and mouse information
  */
 abstract class Canvas extends JPanel implements KeyListener, MouseListener {
@@ -33,7 +33,7 @@ abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	
 	/**
 	 * Used to draw to the canvas. This method is called by the system but then runs {@link #draw(Graphics2D)} which
-	 * passes on the draw call to the rest of the engine
+	 * passes on the draw call to the rest of the game.dylandevalia.engine
 	 *
 	 * @param g The graphics object used to draw to the canvas
 	 */

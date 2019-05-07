@@ -1,7 +1,7 @@
 package game.dylandevalia.engine.exceptions;
 
 /**
- * Exception called when the engine is run without any states
+ * Exception called when the game.dylandevalia.engine is run without any states
  * registered
  */
 public class NoRegisteredStates extends RuntimeException {
