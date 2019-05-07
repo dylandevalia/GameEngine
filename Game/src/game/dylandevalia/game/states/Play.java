@@ -1,10 +1,10 @@
 package game.dylandevalia.game.states;
 
 import game.dylandevalia.engine.Engine;
-import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.utility.Bundle;
+import game.dylandevalia.engine.utility.ColorMaterial;
 import game.dylandevalia.engine.utility.Utility;
 
 import java.awt.*;

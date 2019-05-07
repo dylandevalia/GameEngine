@@ -1,4 +1,4 @@
-package game.dylandevalia.engine.gui;
+package game.dylandevalia.engine.utility;
 
 import java.awt.*;
 

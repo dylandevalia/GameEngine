@@ -8,13 +8,20 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 
-public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
+/**
+ * The canvas which the engine draws to. Extends {@link JPanel} to utilise the Swing GUI. Also implements {@link
+ * KeyListener} and {@link MouseListener} interfaces to get keyboard and mouse information
+ */
+abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	
 	/**
-	 * A hashmap of all the keyCodes and whether they are currently held down
+	 * A hash map of all the keyCodes and whether they are currently held down
 	 */
 	private static HashMap<Integer, Boolean> keyboardStates = new HashMap<>();
 	
+	/**
+	 * Creates the canvas as a double buffered canvas. Also adds this object as keyboard and mouse listeners
+	 */
 	Canvas() {
 		setDoubleBuffered(true);
 		setFocusable(true);
@@ -24,6 +31,12 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 		addMouseListener(this);
 	}
 	
+	/**
+	 * Used to draw to the canvas. This method is called by the system but then runs {@link #draw(Graphics2D)} which
+	 * passes on the draw call to the rest of the engine
+	 *
+	 * @param g The graphics object used to draw to the canvas
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -34,11 +47,15 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 		draw(g2d);
 	}
 	
+	/**
+	 * Method used to draw to the canvas
+	 *
+	 * @param g The graphics object used to draw to the canvas
+	 */
 	public abstract void draw(Graphics2D g);
 	
-	/* ----------------- */
-	/* Keyboard listener */
-	/* ----------------- */
+	
+	//<editor-fold desc="Keyboard listeners">
 	
 	/**
 	 * Checks if a given key is being held down Returns false on NullPointerException as key hasn't been pressed yet so
@@ -75,9 +92,9 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	
 	public abstract void keyReleasedFramework(KeyEvent e);
 	
-	/* -------------- */
-	/* Mouse listener */
-	/* -------------- */
+	//</editor-fold>
+	
+	//<editor-fold desc="Mouse listener">
 	
 	/**
 	 * Array of if the respective mouse button is currently being held down
@@ -142,4 +159,6 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	public abstract void mousePressedFramework(MouseEvent e);
 	
 	public abstract void mouseReleasedFramework(MouseEvent e);
+	
+	//</editor-fold>
 }

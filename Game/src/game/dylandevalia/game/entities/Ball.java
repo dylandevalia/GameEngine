@@ -1,7 +1,7 @@
 package game.dylandevalia.game.entities;
 
-import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
+import game.dylandevalia.engine.utility.ColorMaterial;
 import game.dylandevalia.engine.utility.Vector2D;
 
 import java.awt.*;

@@ -10,34 +10,50 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
+/**
+ * The core of the engine which runs the game loop as well as holding and passing data to the state manager
+ */
 public class Framework extends Canvas {
 	
-	/* Constants */
+	//<editor-fold desc="Constants">
+	/** Number of nanoseconds in a second */
 	private static final long NS_A_SEC = 1000000000;
-	private static final long MS_A_SEC = 1000000;
 	
-	// How often the game should update a second
-	private static final double GAME_HERTZ = 30.0;
-	// How many times the game should render a second
-	private static final double TARGET_FPS = 60.0;
-	// How many nanoseconds it should take to reach the target speed
+	/** How often the game should update a second */
+	public static final double GAME_HERTZ = 30.0;
+	
+	/** How many times the game should render a second */
+	public static final double TARGET_FPS = 60.0;
+	
+	/** How many nanoseconds it should take to reach the target speed */
 	private static final double TIME_BETWEEN_UPDATES = NS_A_SEC / GAME_HERTZ;
-	// How many nanoseconds it should take to render our target FPS
+	
+	/** How many nanoseconds it should take to render our target FPS */
 	private static final double TARGET_TIME_BETWEEN_RENDERS = NS_A_SEC / TARGET_FPS;
-	// Maximum number of updates before forced render
-	// Set to `1` for perfect rendering
+	
+	/**
+	 * Maximum number of updates before forced render. Set to `1` for perfect rendering
+	 */
 	private static final int MAX_UPDATES_BEFORE_RENDER = 5;
-	// The position of the mouse in relation to the window
+	
+	//</editor-fold>
+	
+	/** The position of the mouse in relation to the window */
 	private static Vector2D mousePos = new Vector2D();
-	//	private Game game = new Game(this);
+	
+	/** The manager in charge of the maintaining and manipulating all the states */
 	private StateManager stateManager;
 	
-	/* Game updates */
-	// Should the game loop run
-	private boolean runGame = true;
-	//  Used to calculate positions for rendering (ie. deltaTime)
+	/** Used to calculate positions for rendering (ie. deltaTime) */
 	private double interpolate;
 	
+	/**
+	 * Creates the state manager and passes through the list of states and the starting state. Also starts the game loop
+	 * in its own thread
+	 *
+	 * @param states        The list of registered states the system knows about
+	 * @param startingState The state to start
+	 */
 	Framework(Map<String, Class<? extends IState>> states, String startingState) {
 		super();
 		
@@ -58,7 +74,7 @@ public class Framework extends Canvas {
 	}
 	
 	/**
-	 * Runs the main game loop. The loop tries to keep
+	 * Runs the main game loop
 	 */
 	private void gameLoop() {
 		int fps = 0;
@@ -71,7 +87,9 @@ public class Framework extends Canvas {
 		// Simple way to find fps
 		int lastSecondTime = (int) (lastUpdateTime / NS_A_SEC);
 		
-		while (runGame) {
+		/* Game updates */
+		// Should the game loop run
+		while (true) {
 			/* Update game */
 			
 			double now = System.nanoTime();

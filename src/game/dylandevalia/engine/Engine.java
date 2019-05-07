@@ -11,6 +11,7 @@ import game.dylandevalia.engine.utility.ICallback;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -135,6 +136,7 @@ public class Engine {
 		window.setTitle(newWindowTitle);
 	}
 	
+	
 	//<editor-fold desc="StateManager methods">
 	
 	/**
@@ -240,6 +242,8 @@ public class Engine {
 	}
 	
 	//</editor-fold>
+	
+	public static void quit() {
+		window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+	}
 }
-
-

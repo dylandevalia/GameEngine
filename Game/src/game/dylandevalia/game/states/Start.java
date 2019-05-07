@@ -1,10 +1,10 @@
 package game.dylandevalia.game.states;
 
 import game.dylandevalia.engine.Engine;
-import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.utility.Bundle;
+import game.dylandevalia.engine.utility.ColorMaterial;
 import game.dylandevalia.engine.utility.Log;
 import game.dylandevalia.game.entities.Ball;
 
@@ -51,14 +51,16 @@ public class Start extends State {
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		Engine.quit();
+		
 		// Load play and pause states
-		if (ready == 0 && e.getButton() == MouseEvent.BUTTON3) {
-			Engine.loadStateAsync("play", this::setReady);
-			Engine.loadStateAsync("pause", this::setReady);
-		} else if (ready == 2 && e.getButton() == MouseEvent.BUTTON1) {
-			Engine.setState("play");
-			Engine.unloadState("start");
-		}
+		// if (ready == 0 && e.getButton() == MouseEvent.BUTTON3) {
+		// 	Engine.loadStateAsync("play", this::setReady);
+		// 	Engine.loadStateAsync("pause", this::setReady);
+		// } else if (ready == 2 && e.getButton() == MouseEvent.BUTTON1) {
+		// 	Engine.setState("play");
+		// 	Engine.unloadState("start");
+		// }
 	}
 	
 	private void setReady() {
