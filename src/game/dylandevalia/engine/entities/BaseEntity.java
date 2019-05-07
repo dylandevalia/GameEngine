@@ -2,19 +2,20 @@ package game.dylandevalia.engine.entities;
 
 import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.utility.Vector2D;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 
 public abstract class BaseEntity {
 	
 	/**
-	 * The position vector of the entity - Use this in {@link #update()} Corresponds to the top-left
-	 * corner of the object
+	 * The position vector of the entity - Use this in {@link #update()} Corresponds to the top-left corner of the
+	 * object
 	 */
 	protected Vector2D pos = new Vector2D();
 	
 	/**
-	 * The position to draw to - Use this in {@link #draw(Graphics2D, double)} Corresponds to the
-	 * top-left corner of the object
+	 * The position to draw to - Use this in {@link #draw(Graphics2D, double)} Corresponds to the top-left corner of the
+	 * object
 	 */
 	protected Vector2D drawPos = new Vector2D();
 	
@@ -25,9 +26,9 @@ public abstract class BaseEntity {
 	protected boolean onScreen;
 	
 	/**
-	 * The last position of the object, updated before {@link #update()}. Used for interpolation
-	 * with {@link #pos} and saved to {@link #drawPos} at the beginning of {@link #draw(Graphics2D,
-	 * double)} in {@link #calculateDrawPos(double)}
+	 * The last position of the object, updated before {@link #update()}. Used for interpolation with {@link #pos} and
+	 * saved to {@link #drawPos} at the beginning of {@link #draw(Graphics2D, double)} in {@link
+	 * #calculateDrawPos(double)}
 	 */
 	private Vector2D lastPos = new Vector2D();
 	
@@ -69,6 +70,6 @@ public abstract class BaseEntity {
 	private void isOnScreen() {
 		onScreen =
 			!(drawPos.x + width < 0 || drawPos.x > Window.WIDTH
-				|| drawPos.y + height < 0 || drawPos.y > Window.HEIGHT);
+				  || drawPos.y + height < 0 || drawPos.y > Window.HEIGHT);
 	}
 }

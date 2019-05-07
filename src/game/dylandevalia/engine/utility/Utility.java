@@ -1,6 +1,7 @@
 package game.dylandevalia.engine.utility;
 
 import game.dylandevalia.engine.gui.Window;
+
 import java.util.List;
 
 public class Utility {
@@ -51,8 +52,8 @@ public class Utility {
 	}
 	
 	/**
-	 * Remaps the given number from one linear range to another eg - map(5, 0, 10, 0, 20) = 10 -- -
-	 * map(8, 0, 19, 0 100) = 42.1052...(%)
+	 * Remaps the given number from one linear range to another eg - map(5, 0, 10, 0, 20) = 10 -- - map(8, 0, 19, 0 100)
+	 * = 42.1052...(%)
 	 *
 	 * @param n      The number to remap
 	 * @param start1 The initial range's minimum value
@@ -90,9 +91,9 @@ public class Utility {
 	}
 	
 	/**
-	 * Clamps the given value between the range of min to max. If the number if less than the
-	 * minimum or greater than the maximum, it is set to the minimum and maximum value respectively.
-	 * If the number is within the range, it just simply returned, unchanged.
+	 * Clamps the given value between the range of min to max. If the number if less than the minimum or greater than
+	 * the maximum, it is set to the minimum and maximum value respectively. If the number is within the range, it just
+	 * simply returned, unchanged.
 	 *
 	 * @param n   The number of clamp
 	 * @param min The minimum value of the range
@@ -110,9 +111,9 @@ public class Utility {
 	}
 	
 	/**
-	 * Takes two numbers and linearly interpolates a middle values depending on the ratio value At
-	 * {@code ratio = 0} returns {@code near} At {@code ratio = 0.5} returns {@code (near + far) /
-	 * 2} (ie. mid point) At {@code ratio = 1} returns {@code far}
+	 * Takes two numbers and linearly interpolates a middle values depending on the ratio value At {@code ratio = 0}
+	 * returns {@code near} At {@code ratio = 0.5} returns {@code (near + far) / 2} (ie. mid point) At {@code ratio = 1}
+	 * returns {@code far}
 	 *
 	 * @param ratio The ratio value -- min: 0, max: 1
 	 * @param near  The first value when ratio is 0

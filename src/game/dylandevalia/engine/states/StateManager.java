@@ -1,5 +1,6 @@
 package game.dylandevalia.engine.states;
 
+import game.dylandevalia.engine.exceptions.StateDoesNotExist;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.ICallback;
 import game.dylandevalia.engine.utility.Log;
@@ -11,37 +12,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Controls the creation, initialising, activating/swapping and destroying of states. Passes
- * functions onto the currently active state. AbstractState objects are implemented from the 'AbstractState'
- * interface {@link AbstractState}
+ * Controls the creation, initialising, activating/swapping and destroying of states. Passes functions onto the
+ * currently active state. IState objects are implemented from the 'IState' interface {@link IState}
  */
 public class StateManager {
 	
-	/** Static to give all states a new id in array */
-	private static int stateIndexCounter = 0;
-	
-	private Map<String, Class<? extends State>> registeredStates = new HashMap<>();
+	/** The list of all states that the system knows about */
+	private Map<String, Class<? extends IState>> registeredStates = new HashMap<>();
 	
 	/** Array of loaded states */
-	private final AbstractState[] loadedStates = new AbstractState[GameState.values().length];
+	private Map<String, IState> loadedStates = new HashMap<>();
 	
 	/** The currently active state */
-	private AbstractState currentState;
+	private IState currentState;
 	
-	
-	public StateManager(Map<String, Class<? extends State>> states) {
+	/**
+	 * Constructor which takes a map of all the states the the system should know about and the state that should start.
+	 * It then loads and starts the starting state
+	 *
+	 * @param states        The list of all states the this manager is in control of
+	 * @param startingState The state which should be loaded up first
+	 */
+	public StateManager(Map<String, Class<? extends IState>> states, String startingState) {
 		registeredStates.putAll(states);
+		
+		loadState(startingState);
+		setState(startingState);
 	}
 	
 	/**
-	 * Creates the given state asynchronously, calls its initialisation method and runs the callback
-	 * method when completed
+	 * Creates the given state asynchronously, calls its {@link IState#onCreate(Bundle)} method with the given bundle
+	 * and runs the callback method when completed
 	 *
 	 * @param state    The state to load into memory
 	 * @param bundle   The bundle of data to sent to the state's initialisation method
 	 * @param callback The callback method that will be called when the loading is complete
 	 */
-	public void loadStateAsync(final GameState state, final Bundle bundle, ICallback callback) {
+	public void loadStateAsync(String state, Bundle bundle, ICallback callback) {
 		Thread thread = new Thread(() -> loadState(state, bundle));
 		new Thread(() -> {
 			thread.start();
@@ -55,102 +62,116 @@ public class StateManager {
 	}
 	
 	/**
-	 * Creates the given state asynchronously, calls its initialisation method and runs the callback
+	 * Creates the given state asynchronously, calls its {@link IState#onCreate(Bundle)} method and runs the callback
 	 * method when completed
 	 *
 	 * @param state    The state to load into memory
 	 * @param callback The callback method that will be called when the loading is complete
 	 */
-	public void loadStateAsync(GameState state, ICallback callback) {
+	public void loadStateAsync(String state, ICallback callback) {
 		loadStateAsync(state, null, callback);
 	}
 	
 	/**
-	 * Creates the state in the array and calls the state's initialise function
+	 * Creates the state and calls the state's {@link IState#onCreate(Bundle)} method
 	 *
-	 * @param state  The states to be initialise
+	 * @param state  The states to be onCreate
 	 * @param bundle The bundle of the data to send to the initialising state
 	 */
-	public void loadState(GameState state, Bundle bundle) {
+	public void loadState(String state, Bundle bundle) {
+		state = state.toUpperCase();
+		if (registeredStates.get(state) == null) {
+			throw new StateDoesNotExist(state);
+		}
+		
 		try {
-			int index = state.getIndex();
-			loadedStates[index] = (AbstractState) state.getObj().newInstance();
-			loadedStates[index].initialise(this, bundle);
-			Log.info("STATE MANAGER", "Loaded and initialised " + state.name());
+			loadedStates.put(state, registeredStates.get(state).newInstance());
+			loadedStates.get(state).onCreate(bundle);
 		} catch (Exception e) {
-			Log.error(
-				"AbstractState manager",
-				"Error trying to create new instance of " + state.name(),
-				e
-			);
+			Log.error("STATE MANAGER", "Error trying to create new instance of '" + state + "'", e);
 		}
 	}
 	
 	/**
-	 * Creates the stat in the array and calls the state's initialise function
+	 * Creates the state and calls the state's {@link IState#onCreate(Bundle)} method
 	 *
-	 * @param state The state to initialise
+	 * @param state The state to onCreate
 	 */
-	public void loadState(GameState state) {
+	public void loadState(String state) {
 		loadState(state, null);
 	}
 	
 	/**
-	 * Sets the given state as the active state
+	 * Stops the currently active state by running its {@link IState#onDisable(Bundle)} method before setting the given
+	 * state as the active state. Then running the new state's {@link IState#onEnable(Bundle)} method, and passes in the
+	 * given bundle
 	 *
 	 * @param state  The state to set as active
 	 * @param bundle The bundle of the data to send to the state
 	 */
-	public void setState(GameState state, Bundle bundle) {
-		if (loadedStates[state.getIndex()] == null) {
-			Log.error("AbstractState manager", state.name() + " not loaded!");
+	public void setState(String state, Bundle bundle) {
+		state = state.toUpperCase();
+		if (loadedStates.get(state) == null) {
+			Log.error("STATE MANAGER", state + " not loaded!");
 			return;
 		}
-		currentState = loadedStates[state.getIndex()];
-		currentState.onSet(bundle);
-		Log.info("STATE MANAGER", state.name() + " set");
+		
+		if (currentState != null) {
+			currentState.onDisable(bundle);
+		}
+		currentState = loadedStates.get(state);
+		currentState.onEnable(bundle);
+		Log.info("STATE MANAGER", state + " set");
 	}
 	
 	/**
-	 * Sets the given state as the active state
+	 * Stops the currently active state by running its {@link IState#onDisable(Bundle)} method before setting the given
+	 * state as the active state. Then running the new state's {@link IState#onEnable(Bundle)} method
 	 *
 	 * @param state The state to set as active
 	 */
-	public void setState(GameState state) {
+	public void setState(String state) {
 		setState(state, null);
 	}
 	
 	/**
-	 * Unloads the state from memory
+	 * Runs the state's {@link IState#onDestroy(Bundle)} method then unloads the state from memory
 	 *
-	 * @param state The state to be deleted
+	 * @param state  The state to be unloaded
+	 * @param bundle The bundle of data to send to the state
 	 */
-	public void unloadState(GameState state) {
-		loadedStates[state.getIndex()] = null;
-		Log.info("STATE MANAGER", state.name() + " unloaded");
+	public void unloadState(String state, Bundle bundle) {
+		state = state.toUpperCase();
+		if (loadedStates.get(state) == null) {
+			Log.error("STATE MANAGER", "Cannot unload state '" + state + "' as it was not loaded");
+			return;
+		}
+		loadedStates.get(state).onDestroy(bundle);
+		loadedStates.remove(state);
+		Log.info("STATE MANAGER", state + " unloaded");
+	}
+	
+	/**
+	 * Runs the state's {@link IState#onDestroy(Bundle)} method with no bundle then unloads the state from memory
+	 *
+	 * @param state The state to be unloaded
+	 */
+	public void unloadState(String state) {
+		unloadState(state, null);
 	}
 	
 	/**
 	 * Checks to see if the given states is loaded
 	 *
 	 * @param state The state to check if it's loaded
-	 * @return Boolean if the state is loaded
+	 * @return True if the state is loaded
 	 */
-	public boolean isLoaded(GameState state) {
-		return loadedStates[state.getIndex()] != null;
+	public boolean isLoaded(String state) {
+		return loadedStates.get(state) != null;
 	}
 	
-	/*              Passers             */
-	/* Calls the currently active state */
 	
-	public void reinitialise(Bundle bundle) {
-		currentState.initialise(this, bundle);
-	}
-	
-	public void reinitialise() {
-		reinitialise(null);
-	}
-	
+	//<editor-fold desc="Callback method on currentState">
 	public void update() {
 		currentState.update();
 	}
@@ -174,34 +195,5 @@ public class StateManager {
 	public void mouseReleased(MouseEvent e) {
 		currentState.mouseReleased(e);
 	}
-	
-	/**
-	 * Enum used to store states. Takes the state class in constructor and generates its own id from
-	 * the static {@link #stateIndexCounter} to be used in the array of states {@link
-	 * #loadedStates}
-	 * <p>
-	 * Add states here
-	 *
-	 * @see #stateIndexCounter
-	 * @see AbstractState
-	 */
-	public enum GameState {
-		START(Start.class), PLAY(Play.class), PAUSE(Pause.class);
-		
-		private int index;
-		private Class obj;
-		
-		GameState(Class obj) {
-			this.index = stateIndexCounter++;
-			this.obj = obj;
-		}
-		
-		int getIndex() {
-			return index;
-		}
-		
-		Class getObj() {
-			return obj;
-		}
-	}
+	//</editor-fold>
 }

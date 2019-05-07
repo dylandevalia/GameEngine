@@ -1,14 +1,12 @@
 package game.dylandevalia.engine.gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
-import javax.swing.JPanel;
 
 public abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	
@@ -17,7 +15,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	 */
 	private static HashMap<Integer, Boolean> keyboardStates = new HashMap<>();
 	
-	public Canvas() {
+	Canvas() {
 		setDoubleBuffered(true);
 		setFocusable(true);
 		setBackground(Color.BLACK);
@@ -43,8 +41,8 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	/* ----------------- */
 	
 	/**
-	 * Checks if a given key is being held down Returns false on NullPointerException as key hasn't
-	 * been pressed yet so there's no value for it in the map
+	 * Checks if a given key is being held down Returns false on NullPointerException as key hasn't been pressed yet so
+	 * there's no value for it in the map
 	 *
 	 * @param key The keycode of the key to check
 	 * @return Whether the given key is held down
@@ -107,8 +105,8 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
 	}
 	
 	/**
-	 * Returns if the mouse button given is being pressed down 1 - Left click 2 - Middle click
-	 * (scroll wheel) 3 - Right click
+	 * Returns if the mouse button given is being pressed down 1 - Left click 2 - Middle click (scroll wheel) 3 - Right
+	 * click
 	 *
 	 * @param button Value of the button to check
 	 * @return Boolean if the mouse button is held down

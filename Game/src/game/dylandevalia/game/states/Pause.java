@@ -1,17 +1,18 @@
-package game.dylandevalia.engine.states;
+package game.dylandevalia.game.states;
 
 import game.dylandevalia.engine.Engine;
 import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
-import game.dylandevalia.engine.states.StateManager.GameState;
+import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.utility.Bundle;
-import java.awt.Graphics2D;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class Pause extends State {
 	
 	@Override
-	public void onSet(Bundle bundle) {
+	public void onEnable(Bundle bundle) {
 		Engine.changeWindowTitle("Paused");
 	}
 	
@@ -21,6 +22,6 @@ public class Pause extends State {
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		stateManager.setState(GameState.PLAY);
+		Engine.setState("play");
 	}
 }

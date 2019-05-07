@@ -1,6 +1,6 @@
 package game.dylandevalia.engine.gui;
 
-import game.dylandevalia.engine.states.State;
+import game.dylandevalia.engine.states.IState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,46 +13,28 @@ public class Window extends JFrame {
 	
 	private boolean fullscreen = false;
 	
-	private Map<String, Class<? extends State>> registeredStates;
+	private Framework framework;
+	
+	
+	//<editor-fold desc="Constructors">
 	
 	/**
 	 * Constructs the window at fullscreen with given title
-	 *
-	 * @param title The title of the window
 	 */
-	public Window(String title, Map<String, Class<? extends State>> registeredStates) {
-		this.registeredStates = registeredStates;
+	public Window() {
 		fullscreen = true;
 		setUndecorated(true);
 		setExtendedState(MAXIMIZED_BOTH);
-		
-		constructor(title);
 	}
 	
 	/**
 	 * Constructs the window with the given dimensions and title
 	 *
-	 * @param dimensions The size of the window
 	 * @param resizeable Allows the window to be resizeable
-	 * @param title      The title of the window
 	 */
-	public Window(Dimension dimensions, boolean resizeable, String title, Map<String, Class<? extends State>> registeredStates) {
-		this.registeredStates = registeredStates;
-		setSize(dimensions);
+	public Window(boolean resizeable) {
 		setLocationRelativeTo(null);
 		setResizable(resizeable);
-		
-		constructor(title);
-	}
-	
-	/**
-	 * Constructs the window with the given dimensions and title but does not allow for resizing
-	 *
-	 * @param dimensions The size of the window
-	 * @param title      The title of the window
-	 */
-	public Window(Dimension dimensions, String title, Map<String, Class<? extends State>> registeredStates) {
-		this(dimensions, false, title, registeredStates);
 	}
 	
 	/**
@@ -60,12 +42,16 @@ public class Window extends JFrame {
 	 *
 	 * @param title The title of the window
 	 */
-	private void constructor(String title) {
+	public void constructor(String title, Map<String, Class<? extends IState>> registeredStates, String startingState) {
 		setTitle(title);
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setContentPane(new Framework(registeredStates));
-		setVisible(true);
+		framework = new Framework(registeredStates, startingState);
+		setContentPane(framework);
 	}
+	//</editor-fold>
+	
+	
+	//<editor-fold desc="JFrame overrides">
 	
 	/**
 	 * Sets the size of the application window
@@ -73,8 +59,7 @@ public class Window extends JFrame {
 	 * @param width  The width of the window in pixels
 	 * @param height The height of the window in pixels
 	 */
-	@Override
-	public void setSize(int width, int height) {
+	public void setWindowSize(int width, int height) {
 		if (fullscreen) {
 			return;
 		}
@@ -82,11 +67,17 @@ public class Window extends JFrame {
 		// TODO: Fix this issue of screen being the wrong size
 		// Added tmp fix by hard-coding values
 		pack();
-		Insets insets = getInsets();
-		super.setSize(
-			width /*+ insets.left + insets.right*/,
-			height /*+ insets.top + insets.bottom*/ + 28
-		);
+		Insets in = new Insets(28, 0, 0, 0); // getInsets();
+		Dimension d = new Dimension(width + in.left + in.right, height + in.top + in.bottom);
+		super.setMinimumSize(d);
+		super.setPreferredSize(d);
+		super.setMaximumSize(d);
+		super.setSize(d);
+		// super.setPreferredSize(new Dimension(
+		// 	width /*+ insets.left + insets.right*/,
+		// 	height /*+ insets.top + insets.bottom*/ /*+ 28*/
+		// ));
+		pack();
 	}
 	
 	/**
@@ -94,8 +85,13 @@ public class Window extends JFrame {
 	 *
 	 * @param dimension The width and height of the window in pixels
 	 */
-	@Override
-	public void setSize(Dimension dimension) {
-		setSize(dimension.width, dimension.height);
+	public void setWindowSize(Dimension dimension) {
+		setWindowSize(dimension.width, dimension.height);
+	}
+	//</editor-fold>
+	
+	
+	public Framework getFramework() {
+		return framework;
 	}
 }

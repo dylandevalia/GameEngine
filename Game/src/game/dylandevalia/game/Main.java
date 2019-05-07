@@ -1,6 +1,8 @@
 package game.dylandevalia.game;
 
 import game.dylandevalia.engine.Engine;
+import game.dylandevalia.game.states.Pause;
+import game.dylandevalia.game.states.Play;
 import game.dylandevalia.game.states.Start;
 
 import java.awt.*;
@@ -8,13 +10,34 @@ import java.awt.*;
 public class Main {
 	
 	public static void main(String[] args) {
+		// GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		// Rectangle bounds = env.getMaximumWindowBounds();
+		// System.out.println("Screen Bounds: " + bounds );
+		//
+		// GraphicsDevice screen = env.getDefaultScreenDevice();
+		// GraphicsConfiguration config = screen.getDefaultConfiguration();
+		// System.out.println("Screen Size  : " + config.getBounds());
+		//
+		// JFrame frame = new JFrame("Frame Info");
+		// System.out.println("Frame Insets : " + frame.getInsets() );
+		//
+		// frame.setSize(200, 200);
+		// System.out.println("Frame Insets : " + frame.getInsets() );
+		// frame.setVisible( true );
+		//
+		// System.out.println("Frame Size   : " + frame.getSize() );
+		// System.out.println("Frame Insets : " + frame.getInsets() );
+		// System.out.println("Content Size : " + frame.getContentPane().getSize() );
 		
-		Engine.registerState("Start", Start.class);
-		Engine.runWindowed(new Dimension(1280, 720), "Game");
+		Engine.registerState("start", Start.class);
+		Engine.registerState("pause", Pause.class);
+		Engine.registerState("play", Play.class);
+		
+		Engine.runWindowedResizeable(new Dimension(1280, 720), "start", "Game");
 		
 		if (false) {
-			Engine.runWindowedResizeable(null, "");
-			Engine.runFullscreen("");
+			Engine.runWindowedResizeable(null, "", "");
+			Engine.runFullscreen("", "");
 		}
 	}
 }

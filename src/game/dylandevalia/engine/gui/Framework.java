@@ -1,8 +1,7 @@
 package game.dylandevalia.engine.gui;
 
-import game.dylandevalia.engine.states.State;
+import game.dylandevalia.engine.states.IState;
 import game.dylandevalia.engine.states.StateManager;
-import game.dylandevalia.engine.states.StateManager.GameState;
 import game.dylandevalia.engine.utility.Log;
 import game.dylandevalia.engine.utility.Vector2D;
 
@@ -28,6 +27,7 @@ public class Framework extends Canvas {
 	// Maximum number of updates before forced render
 	// Set to `1` for perfect rendering
 	private static final int MAX_UPDATES_BEFORE_RENDER = 5;
+	// The position of the mouse in relation to the window
 	private static Vector2D mousePos = new Vector2D();
 	//	private Game game = new Game(this);
 	private StateManager stateManager;
@@ -38,22 +38,18 @@ public class Framework extends Canvas {
 	//  Used to calculate positions for rendering (ie. deltaTime)
 	private double interpolate;
 	
-	Framework(Map<String, Class<? extends State>> states) {
+	Framework(Map<String, Class<? extends IState>> states, String startingState) {
 		super();
 		
-		stateManager = new StateManager(states);
-		
-		// Creates the start state and sets it to the active state
-		stateManager.loadState(GameState.START);
-		stateManager.setState(GameState.START);
+		stateManager = new StateManager(states, startingState);
 		
 		// Stats the game loop in its own thread
 		new Thread(this::gameLoop).start();
 	}
 	
 	/**
-	 * Simple getter to return the mouse position which is calculated in update. Returns a copy so
-	 * functions don't accidentally change the value
+	 * Simple getter to return the mouse position which is calculated in update. Returns a copy so functions don't
+	 * accidentally change the value
 	 *
 	 * @return The mouse position
 	 */
@@ -70,12 +66,10 @@ public class Framework extends Canvas {
 		
 		// Last time the game was updated/rendered
 		double lastUpdateTime = System.nanoTime();
-		double lastRenderTime = System.nanoTime();
+		double lastRenderTime;
 		
 		// Simple way to find fps
 		int lastSecondTime = (int) (lastUpdateTime / NS_A_SEC);
-
-//		setup();
 		
 		while (runGame) {
 			/* Update game */
@@ -85,7 +79,7 @@ public class Framework extends Canvas {
 			
 			// Do as many updates as required - may need to play catchup
 			while (now - lastUpdateTime > TIME_BETWEEN_UPDATES
-				&& updateCount < MAX_UPDATES_BEFORE_RENDER) {
+				       && updateCount < MAX_UPDATES_BEFORE_RENDER) {
 				update();
 				lastUpdateTime += TIME_BETWEEN_UPDATES;
 				updateCount++;
@@ -115,16 +109,21 @@ public class Framework extends Canvas {
 			
 			// Yield CPU time so that we don't take up all the processing time
 			while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
-				&& now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+				       && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
 				Thread.yield();
 				now = System.nanoTime();
 			}
 		}
 	}
 	
+	public StateManager getStateManager() {
+		return stateManager;
+	}
+	
+	//<editor-fold desc="StateManager callbacks">
+	
 	/**
-	 * Update state and mouse position Try catch used as location on screen might not have been
-	 * instantiated yet
+	 * Update state and mouse position Try catch used as location on screen might not have been instantiated yet
 	 */
 	private void update() {
 		try {
@@ -168,4 +167,5 @@ public class Framework extends Canvas {
 	public void mouseReleasedFramework(MouseEvent e) {
 		stateManager.mouseReleased(e);
 	}
+	//</editor-fold>
 }

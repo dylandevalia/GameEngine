@@ -12,8 +12,8 @@ public class Bundle {
 	private Map<String, Object> map = new HashMap<>();
 	
 	/**
-	 * Puts data into the bundle with a name. This name will need to be used to retrieve the data
-	 * back in {@link #get(String)}
+	 * Puts data into the bundle with a name. This name will need to be used to retrieve the data back in {@link
+	 * #get(String)}
 	 *
 	 * @param name The name of the data (case-sensitive)
 	 * @param data The data to be stored

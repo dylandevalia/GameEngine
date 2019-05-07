@@ -1,9 +1,9 @@
-package game.dylandevalia.engine.states;
+package game.dylandevalia.game.states;
 
 import game.dylandevalia.engine.Engine;
 import game.dylandevalia.engine.gui.ColorMaterial;
 import game.dylandevalia.engine.gui.Window;
-import game.dylandevalia.engine.states.StateManager.GameState;
+import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.Utility;
 
@@ -13,13 +13,13 @@ import java.awt.event.MouseEvent;
 public class Play extends State {
 	
 	@Override
-	public void initialise(Bundle bundle) {
+	public void onCreate(Bundle bundle) {
 		// Wait 5 seconds to test asynchronous loading
 		Utility.sleep(5000);
 	}
 	
 	@Override
-	public void onSet(Bundle bundle) {
+	public void onEnable(Bundle bundle) {
 		Engine.changeWindowTitle("Play");
 	}
 	
@@ -31,6 +31,6 @@ public class Play extends State {
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		stateManager.setState(GameState.PAUSE);
+		Engine.setState("pause");
 	}
 }
