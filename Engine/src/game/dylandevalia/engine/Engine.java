@@ -23,10 +23,10 @@ public class Engine {
 	/** Reference to the JFrame window */
 	private static Window window;
 	
-	/** Map of all the states the game.dylandevalia.engine will know about */
+	/** Map of all the states the engine will know about */
 	private static Map<String, Class<? extends IState>> registeredStates = new HashMap<>();
 	
-	/** True if an instance of the game.dylandevalia.engine is already running */
+	/** True if an instance of the engine is already running */
 	private static boolean isRunning = false;
 	
 	
@@ -117,16 +117,7 @@ public class Engine {
 	
 	//</editor-fold>
 	
-	/**
-	 * Registers the state with the name provided
-	 *
-	 * @param name       The name used for the state (case insensitive)
-	 * @param stateClass The class of the state
-	 */
-	public static void registerState(String name, Class<? extends IState> stateClass) {
-		registeredStates.put(name.toUpperCase(), stateClass);
-	}
-	
+	//<editor-fold desc="Window properties">
 	/**
 	 * Changes the title of the window
 	 *
@@ -163,6 +154,18 @@ public class Engine {
 		return window.getHeight();
 	}
 	
+	
+	//</editor-fold>
+	
+	/**
+	 * Registers the state with the name provided
+	 *
+	 * @param name       The name used for the state (case insensitive)
+	 * @param stateClass The class of the state
+	 */
+	public static void registerState(String name, Class<? extends IState> stateClass) {
+		registeredStates.put(name.toUpperCase(), stateClass);
+	}
 	
 	//<editor-fold desc="StateManager methods">
 	
@@ -270,6 +273,31 @@ public class Engine {
 	
 	//</editor-fold>
 	
+	/**
+	 * Gets if the mouse button is currently being pressed down
+	 *
+	 * @param button The button to check (1-Left / 2-Right / 3-Middle)
+	 * @return True if the button is being held down
+	 */
+	public static boolean getMouseDown(int button) {
+		return window.getFramework().getMouseButtonState(button);
+	}
+	
+	/**
+	 * Gets if the given key is currently being pressed down
+	 *
+	 * @param keyCode The key to check. Use the {@link java.awt.event.KeyEvent} virtual keyboard keys
+	 * @return True if the key is being pressed down
+	 */
+	public static boolean getKeyDown(int keyCode) {
+		return window.getFramework().getKeyState(keyCode);
+	}
+	
+	/**
+	 * Closes the application
+	 *
+	 * Please make sure you save any wanted data before calling!
+	 */
 	public static void quit() {
 		window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
 	}

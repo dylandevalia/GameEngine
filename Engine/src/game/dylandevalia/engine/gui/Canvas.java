@@ -9,8 +9,8 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 /**
- * The canvas which the game.dylandevalia.engine draws to. Extends {@link JPanel} to utilise the Swing GUI. Also implements {@link
- * KeyListener} and {@link MouseListener} interfaces to get keyboard and mouse information
+ * The canvas which the game.dylandevalia.engine draws to. Extends {@link JPanel} to utilise the Swing GUI. Also
+ * implements {@link KeyListener} and {@link MouseListener} interfaces to get keyboard and mouse information
  */
 abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	
@@ -61,10 +61,10 @@ abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	 * Checks if a given key is being held down Returns false on NullPointerException as key hasn't been pressed yet so
 	 * there's no value for it in the map
 	 *
-	 * @param key The keycode of the key to check
+	 * @param key The key code of the key to check
 	 * @return Whether the given key is held down
 	 */
-	public static boolean getKeyState(int key) {
+	public boolean getKeyState(int key) {
 		try {
 			return keyboardStates.get(key);
 		} catch (NullPointerException e) {
@@ -80,7 +80,7 @@ abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keyboardStates.put(e.getKeyCode(), false);
+		keyboardStates.remove(e.getKeyCode());
 		keyReleasedFramework(e);
 	}
 	
@@ -128,7 +128,10 @@ abstract class Canvas extends JPanel implements KeyListener, MouseListener {
 	 * @param button Value of the button to check
 	 * @return Boolean if the mouse button is held down
 	 */
-	public static boolean mouseButtonState(int button) {
+	public boolean getMouseButtonState(int button) {
+		if (button > mouseStates.length) {
+			return false;
+		}
 		return mouseStates[button - 1];
 	}
 	

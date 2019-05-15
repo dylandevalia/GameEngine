@@ -13,28 +13,28 @@ import java.awt.event.MouseEvent;
 public interface IState {
 	
 	/**
-	 * AdvancedState event method called when the state is first loaded
+	 * State event method called when the state is first loaded
 	 *
 	 * @param bundle Bundle of data which is passed to the method
 	 */
 	void onCreate(Bundle bundle);
 	
 	/**
-	 * AdvancedState event method called when the state is set as the active state
+	 * State event method called when the state is set as the active state
 	 *
 	 * @param bundle Bundle of data which is passed to the method
 	 */
 	void onEnable(Bundle bundle);
 	
 	/**
-	 * AdvancedState event method called when the state is unset as the active state
+	 * State event method called when the state is unset as the active state
 	 *
 	 * @param bundle Bundle of data which is passed to the method
 	 */
 	void onDisable(Bundle bundle);
 	
 	/**
-	 * AdvancedState event method called before the state is unloaded from memory
+	 * State event method called before the state is unloaded from memory
 	 *
 	 * @param bundle Bundle of data which is passed to the method
 	 */

@@ -11,11 +11,12 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 
 /**
- * The core of the game.dylandevalia.engine which runs the game loop as well as holding and passing data to the state manager
+ * The core of the Engine which runs the game loop as well as holding and passing data to the state manager
  */
 public class Framework extends Canvas {
 	
 	//<editor-fold desc="Constants">
+	
 	/** Number of nanoseconds in a second */
 	private static final long NS_A_SEC = 1000000000;
 	
@@ -140,9 +141,7 @@ public class Framework extends Canvas {
 	
 	//<editor-fold desc="StateManager callbacks">
 	
-	/**
-	 * Update state and mouse position Try catch used as location on screen might not have been instantiated yet
-	 */
+	/** Update state and mouse position Try catch used as location on screen might not have been instantiated yet */
 	private void update() {
 		try {
 			Point mouse = MouseInfo.getPointerInfo().getLocation();
