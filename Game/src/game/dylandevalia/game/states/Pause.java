@@ -1,7 +1,6 @@
 package game.dylandevalia.game.states;
 
 import game.dylandevalia.engine.Engine;
-import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.ColorMaterial;
@@ -18,7 +17,7 @@ public class Pause extends State {
 	
 	public void draw(Graphics2D g2d, double interpolate) {
 		g2d.setColor(ColorMaterial.red);
-		g2d.fillRect(0, 0, Window.WIDTH, Window.HEIGHT);
+		g2d.fillRect(0, 0, Engine.getWindowWidth(), Engine.getWindowHeight());
 	}
 	
 	public void mouseReleased(MouseEvent e) {

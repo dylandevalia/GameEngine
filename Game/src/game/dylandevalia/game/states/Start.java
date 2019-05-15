@@ -1,7 +1,6 @@
 package game.dylandevalia.game.states;
 
 import game.dylandevalia.engine.Engine;
-import game.dylandevalia.engine.gui.Window;
 import game.dylandevalia.engine.states.State;
 import game.dylandevalia.engine.utility.Bundle;
 import game.dylandevalia.engine.utility.ColorMaterial;
@@ -29,13 +28,13 @@ public class Start extends State {
 	@Override
 	public void draw(Graphics2D g, double interpolate) {
 		g.setColor(ColorMaterial.blue);
-		g.fillRect(0, 0, Window.WIDTH, Window.HEIGHT);
+		g.fillRect(0, 0, Engine.getWindowWidth(), Engine.getWindowHeight());
 		
 		g.setColor(Color.RED);
 		g.fillRect(0, 0, 1, 20);
 		g.fillRect(0, 0, 20, 1);
-		g.fillRect(Window.WIDTH - 1, Window.HEIGHT - 20, 1, 20);
-		g.fillRect(Window.WIDTH - 20, Window.HEIGHT - 1, 20, 1);
+		g.fillRect(Engine.getWindowWidth() - 1, Engine.getWindowHeight() - 20, 1, 20);
+		g.fillRect(Engine.getWindowWidth() - 20, Engine.getWindowHeight() - 1, 20, 1);
 		
 		
 		ball.draw(g, interpolate);
@@ -51,16 +50,14 @@ public class Start extends State {
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		Engine.quit();
-		
 		// Load play and pause states
-		// if (ready == 0 && e.getButton() == MouseEvent.BUTTON3) {
-		// 	Engine.loadStateAsync("play", this::setReady);
-		// 	Engine.loadStateAsync("pause", this::setReady);
-		// } else if (ready == 2 && e.getButton() == MouseEvent.BUTTON1) {
-		// 	Engine.setState("play");
-		// 	Engine.unloadState("start");
-		// }
+		if (ready == 0 && e.getButton() == MouseEvent.BUTTON3) {
+			Engine.loadStateAsync("play", this::setReady);
+			Engine.loadStateAsync("pause", this::setReady);
+		} else if (ready == 2 && e.getButton() == MouseEvent.BUTTON1) {
+			Engine.setState("play");
+			Engine.unloadState("start");
+		}
 	}
 	
 	private void setReady() {
@@ -80,10 +77,10 @@ public class Start extends State {
 		int height = g.getFontMetrics(font).getHeight();
 		
 		// Determine the X coordinate for the text
-		int x = (Window.WIDTH / 2) - (width / 2);
+		int x = (Engine.getWindowWidth() / 2) - (width / 2);
 		
 		// Determine the Y coordinate for the text
-		int y = (Window.HEIGHT / 2) + (height / 2);
+		int y = (Engine.getWindowHeight() / 2) + (height / 2);
 		
 		// Set the font
 		g.setFont(font);

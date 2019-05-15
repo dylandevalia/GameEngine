@@ -1,6 +1,6 @@
 package game.dylandevalia.game.entities;
 
-import game.dylandevalia.engine.gui.Window;
+import game.dylandevalia.engine.Engine;
 import game.dylandevalia.engine.utility.ColorMaterial;
 import game.dylandevalia.engine.utility.Vector2D;
 
@@ -8,10 +8,10 @@ import java.awt.*;
 
 public class Ball extends BaseEntity {
 	
-	Vector2D vel = new Vector2D(1, 1).setMag(10);
+	private Vector2D vel = new Vector2D(1, 1).setMag(10);
 	
 	public Ball() {
-		super(Window.WIDTH / 2, Window.HEIGHT / 2, 50, 50);
+		super(Engine.getWindowWidth() / 2, Engine.getWindowHeight() / 2, 50, 50);
 	}
 	
 	@Override
@@ -19,10 +19,10 @@ public class Ball extends BaseEntity {
 		super.update();
 		pos.add(vel);
 		
-		if (pos.x < 0 || pos.x > Window.WIDTH - width) {
+		if (pos.x < 0 || pos.x > Engine.getWindowWidth() - width) {
 			vel.x *= -1;
 		}
-		if (pos.y < 0 || pos.y > Window.HEIGHT - height) {
+		if (pos.y < 0 || pos.y > Engine.getWindowHeight() - height) {
 			vel.y *= -1;
 		}
 	}

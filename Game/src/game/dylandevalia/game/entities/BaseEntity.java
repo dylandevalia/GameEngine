@@ -1,6 +1,6 @@
 package game.dylandevalia.game.entities;
 
-import game.dylandevalia.engine.gui.Window;
+import game.dylandevalia.engine.Engine;
 import game.dylandevalia.engine.utility.Vector2D;
 
 import java.awt.*;
@@ -69,7 +69,7 @@ public abstract class BaseEntity {
 	
 	private void isOnScreen() {
 		onScreen =
-			!(drawPos.x + width < 0 || drawPos.x > Window.WIDTH
-				|| drawPos.y + height < 0 || drawPos.y > Window.HEIGHT);
+			!(drawPos.x + width < 0 || drawPos.x > Engine.getWindowWidth()
+				|| drawPos.y + height < 0 || drawPos.y > Engine.getWindowHeight());
 	}
 }
